@@ -1,47 +1,57 @@
 author: Prabhath Nanisetty
-id: SFGUIDE-NAME
-summary: This is a sample Snowflake Guide
-categories: Getting-Started
+id: build-an-mmm-model-using-meridian-mmm-and-snowflake-notebooks
+summary: Build a Marketing Mix Model using Meridian MMM and Snowflake Notebooks
+categories: marketing, data-science, data-science-&-ml
 environments: web
 status: Published 
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
-tags: Getting Started, Data Science, Data Engineering, Twitter 
+tags: Marketing, Data Science, Data Science & ML, Notebooks, Marketing Mix, MMM, Media Mix
 
-# Snowflake Guide Template
+# Build a Marketing Mix Model with Meridian MMM and Snowflake Notebooks
 <!-- ------------------------ -->
 ## Overview 
-Duration: 1
+Duration: 5
 
-Please use [this markdown file](https://raw.githubusercontent.com/Snowflake-Labs/sfguides/master/site/sfguides/sample.md) as a template for writing your own Snowflake Quickstarts. This example guide has elements that you will use when writing your own guides, including: code snippet highlighting, downloading files, inserting photos, and more. 
+Marketing Mix Models (MMMs) are an important tool in any Marketing Effectiveness Program. They give companies a full view of advertising and marketing spend while also providing the ability to simulate various scenarios and guide incremental investment decisions.
 
-It is important to include on the first page of your guide the following sections: Prerequisites, What you'll learn, What you'll need, and What you'll build. Remember, part of the purpose of a Snowflake Guide is that the reader will have **built** something by the end of the tutorial; this means that actual code needs to be included (not just pseudo-code).
+They were ubiquitous ~10-15 years ago but have sometimes been replaced by methods such as Multi-Touch Attribution (MTA) with the rise of digital marketing and the ease of tracking customer journeys at the individual-level. Nowadays, however, the slow decline of third-party cookies and the rise of "Walled Garden" publishers have brought MMMs back into vogue. You can read more about the history in Jim Warner's excellent article ["MMM is having its moment"](https://medium.com/snowflake/mmm-is-having-its-moment-8125eab6f405).
 
-The rest of this Snowflake Guide explains the steps of writing your own guide. 
+MMMs have changed a lot since and many have adopted Bayesian approaches. The benefit is the ability to leverage priors, a powerful concept that helps with adstock and other carryover responses. Niall Oulton has an [excellent summary](https://medium.com/@nialloulton/a-comprehensive-guide-to-bayesian-marketing-mix-modeling-a37da5fde7c4) of Bayesian MMMs.
+
+Several companies have released marketing mix models, the latest - as of this Quickstart publish date - is Meridian MMM developed by Google. For more information on this mode, we encourage you to check out their [site](https://developers.google.com/meridian). This model has been open-sourced under the Apache 2.0 license.
+
+### Business Problem
+While MMM's solve many business problems, the problem we are solving in this Quickstart is one of access to data and the process to develop a model. Typically an MMM needs access to large quantities of advertising data, sales data, and access to GPUs.
+
+Typically advertising data and sales data are stored in silos across data providers, agencies, or publishers in many different formats. In this Quickstart, we do not cover the data acquisition process, however, there are [several solutions available](https://www.snowflake.com/en/developers/solutions-center/?tags=department%2Fmarketing-analytics) that cover this topic.
+
+Next, being able to properly model the data often requires data scientists to copy that data into other systems for analysis, sometimes even personal devices. Lastly, with more granular data being available, often consumer-grade hardware simply is not up to the task and GPUs are needed - the challengs is that a complicated technology/cloud stack needs to be developed to make all this possible.
+
+This Quickstart will show you how Snowflake makes this easy and brings your models directly to where the data resides.
+
 
 ### Prerequisites
-- Familiarity with Markdown syntax
+- Knowledge of Marketing Mix Models, this Quickstart does not go into detail about MMM model development and Bayesian statistics.
+- Familiarity with Snowflake usage (worksheets, notebooks) and Snowsight.
 
 ### What You’ll Learn 
-- how to set the metadata for a guide (category, author, id, etc)
-- how to set the amount of time each slide will take to finish 
-- how to include code snippets 
-- how to hyperlink items 
-- how to include images 
+- How to create **Compute Pools** for GPU access.
+- How to create **External Access Integrations** (EAIs) to allow Notebooks to connect and install third-party packages.
+- Installing and running the Meridian MMM tutorial within a **Snowflake container-runtime Notebook**.
 
 ### What You’ll Need 
-- A [GitHub](https://github.com/) Account 
-- [VSCode](https://code.visualstudio.com/download) Installed
-- [NodeJS](https://nodejs.org/en/download/) Installed
-- [GoLang](https://golang.org/doc/install) Installed
+- Snowflake account in a cloud/region that supports [container runtime notebooks](https://docs.snowflake.com/en/user-guide/ui-snowsight/notebooks-on-spcs).
+- Access to a Role that can create databases and schemas, create warehouse objects, create compute pools, create & manage Notebooks, and create EAIs.
 
 ### What You’ll Build 
-- A Snowflake Guide
+- A Snowflake Notebook with the Meridian MMM tutorial.
+- A working Marketing Mix Model.
 
 <!-- ------------------------ -->
-## Metadata Configuration
-Duration: 2
+## Establishing Our Environment
+Duration: 10
 
-It is important to set the correct metadata for your Snowflake Guide. The metadata contains all the information required for listing and publishing your guide and includes the following:
+
 
 
 - **summary**: This is a sample Snowflake Guide 
